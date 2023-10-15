@@ -38,7 +38,7 @@ contract Task2 with Deployable {
   receive(msg: Slice) {
     send(SendParameters{
       to: self.admin,
-      body: msg + sender()
+      body: SomeMessage{arg1: msg, arg2: sender()}.toCell()
     });
   }
 }
