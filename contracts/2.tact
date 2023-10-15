@@ -36,7 +36,7 @@ contract Task2 with Deployable {
   }
 
   receive(msg: Slice) {
-    send(SendParameters{
+    /*send(SendParameters{
       to: self.admin,
       value: 0,
       mode: SendRemainingValue + SendIgnoreErrors,
@@ -47,6 +47,6 @@ contract Task2 with Deployable {
                 beginCell().storeSlice(msg).endCell()
               )
             .endCell()
-    });
+    });*/
   }
 }
