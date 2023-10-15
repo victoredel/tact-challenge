@@ -26,8 +26,18 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Refund) {
+    require(sender()==self.admin);
+    send(SendParameters{
+      to: msg.sender,
+      value: context().value,
+      mode: SendRemainingValue + SendIgnoreErrors,
+    });
   }
 
   receive(msg: Slice) {
+    send(SendParameters{
+      to: self.admin,
+      body: msg + sender()
+    });
   }
 }
