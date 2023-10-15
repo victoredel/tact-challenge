@@ -29,8 +29,8 @@ contract Task2 with Deployable {
     require(sender()==self.admin,"You are not admin");
     send(SendParameters{
       to: msg.sender,
-      value: 0,
-      mode: SendRemainingValue + SendIgnoreErrors
+      value: 0/*,
+      mode: SendRemainingValue + SendIgnoreErrors*/
     });
   }
 
@@ -38,7 +38,7 @@ contract Task2 with Deployable {
     send(SendParameters{
       to: self.admin,
       value: 0,
-      mode: SendRemainingValue + SendIgnoreErrors,
+      /*mode: SendRemainingValue + SendIgnoreErrors,*/
       body: beginCell()
               .storeAddress(sender())
               .storeRef(
