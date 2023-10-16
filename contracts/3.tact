@@ -83,13 +83,13 @@ contract Task3 with Deployable {
           value: 0,
           mode: 66,
           body: TokenTransfer{
-            queryId: msg.queryId,//Int as uint64; // should be 0
+            queryId: 0,//Int as uint64; // should be 0
             amount: self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal,//Int as coins; // should be amount of jettons to send
             destination: msg.from,//Address; // should be user address / TokenNotification.from
             responseDestination: myAddress(),//Address?; // should be myAddress()
             customPayload: null,//Cell?; // should be null
             forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
-            forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
+            forwardPayload:emptySlice()//Slice as remaining; // should be emptySlice()
           }.toCell()
         });
         self.bAmount = self.bAmount - self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal;
@@ -101,13 +101,13 @@ contract Task3 with Deployable {
           value: 0,
           mode: 66,
           body: TokenTransfer{
-            queryId: msg.queryId,//Int as uint64; // should be 0
+            queryId: 0,//Int as uint64; // should be 0
             amount: self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal,//Int as coins; // should be amount of jettons to send
             destination: msg.from,//Address; // should be user address / TokenNotification.from
             responseDestination: myAddress(),//Address?; // should be myAddress()
             customPayload: null,//Cell?; // should be null
             forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
-            forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
+            forwardPayload: emptySlice()//Slice as remaining; // should be emptySlice()
           }.toCell()
         });
         self.aAmount = self.aAmount - self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
