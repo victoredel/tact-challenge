@@ -87,7 +87,7 @@ contract Task3 with Deployable {
           mode: 66,
           body: TokenTransfer{
             queryId: 0,//Int as uint64; // should be 0
-            amount: self.tranfer,//Int as coins; // should be amount of jettons to send
+            amount: tranfer,//Int as coins; // should be amount of jettons to send
             destination: msg.from,//Address; // should be user address / TokenNotification.from
             responseDestination: myAddress(),//Address?; // should be myAddress()
             customPayload: null,//Cell?; // should be null
@@ -106,7 +106,7 @@ contract Task3 with Deployable {
           mode: 66,
           body: TokenTransfer{
             queryId: 0,//Int as uint64; // should be 0
-            amount: self.tranfer,//Int as coins; // should be amount of jettons to send
+            amount: tranfer,//Int as coins; // should be amount of jettons to send
             destination: msg.from,//Address; // should be user address / TokenNotification.from
             responseDestination: myAddress(),//Address?; // should be myAddress()
             customPayload: null,//Cell?; // should be null
