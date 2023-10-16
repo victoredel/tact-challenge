@@ -121,9 +121,9 @@ contract Task3 with Deployable {
   get fun price(jetton: Address): Int {  
     require(jetton == self.jettonAddressA || jetton == self.jettonAddressB,"");
     if(jetton == self.jettonAddressA){
-      return self.aAmount*self.decimal/self.bAmount;
+      return self.decimal*self.aAmount/self.bAmount/self.decimal;
     }else{
-      return self.bAmount*self.decimal/self.aAmount;
+      return self.decimal*self.bAmount/self.aAmount/self.decimal;
     }
   }
   
