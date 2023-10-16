@@ -77,7 +77,7 @@ contract Task3 with Deployable {
       }
     }else{
       if(sender()==self.jettonAddressA){
-        require(msg.amount<=aAmount,"");
+        require(msg.amount<=self.aAmount,"");
         send(SendParameters{
           to: sender(),
           value: 0,
@@ -93,7 +93,7 @@ contract Task3 with Deployable {
           }.toCell()
         });
       }else{
-        require(msg.amount<=bAmount,"");
+        require(msg.amount<=self.bAmount,"");
         send(SendParameters{
           to: sender(),
           value: 0,
