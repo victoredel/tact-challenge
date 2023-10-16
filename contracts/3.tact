@@ -67,7 +67,7 @@ contract Task3 with Deployable {
     self.decimal = 1000000000;
   }
 
-  receive(msg: TokenNotification) {/*
+  receive(msg: TokenNotification) {
     require(sender()==self.jettonAddressA || sender()==self.jettonAddressB,"");
     if(msg.from==self.owner){
       if(sender()==self.jettonAddressA){
@@ -75,7 +75,7 @@ contract Task3 with Deployable {
       }else{
         self.bAmount=self.bAmount+msg.amount;
       }
-    }else{
+    }/*else{
       if(sender()==self.jettonAddressA){
         require(msg.amount<=self.aAmount,"");
         send(SendParameters{
