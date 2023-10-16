@@ -125,6 +125,7 @@ contract Task3 with Deployable {
     }else{
       return self.decimal*self.bAmount/self.aAmount/self.decimal;
     }*/
+    return 0;
   }
   
   get fun balance(jetton: Address): Int { 
