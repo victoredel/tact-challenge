@@ -68,11 +68,65 @@ contract Task3 with Deployable {
   }
 
   receive(msg: TokenNotification) {
+    require(sender()==jettonAddressA || sender()==jettonAddressB);
+    if(msg.from==self.owner){
+      if(sender()==self.jettonAddressA){
+        self.aAmount=self.aAmount+msg.amount;
+      }else{
+        self.bAmount=self.bAmount+msg.amount;
+      }
+    }else{
+      if(sender()==self.jettonAddressA){
+        require(msg.amount<=aAmount,"");
+        send(SendParameters{
+          to: sender(),
+          value: 0,
+          mode: 66,
+          body: TokenTransfer{
+            queryId: msg.queryId,//Int as uint64; // should be 0
+            amount: msg.amount*decimal*self.bAmount/self.aAmount,//Int as coins; // should be amount of jettons to send
+            destination: msg.from,//Address; // should be user address / TokenNotification.from
+            // responseDestination: ,//Address?; // should be myAddress()
+            // customPayload: ,//Cell?; // should be null
+            forwardTonAmount: ton("0,01"),//Int as coins; // should be ton("0.01")
+            forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
+          }.toCell()
+        });
+      }else{
+        require(msg.amount<=bAmount,"");
+        send(SendParameters{
+          to: sender(),
+          value: 0,
+          mode: 66,
+          body: TokenTransfer{
+            queryId: msg.queryId,//Int as uint64; // should be 0
+            amount: msg.amount*decimal*self.aAmount/self.bAmount,//Int as coins; // should be amount of jettons to send
+            destination: msg.from,//Address; // should be user address / TokenNotification.from
+            // responseDestination: ,//Address?; // should be myAddress()
+            // customPayload: ,//Cell?; // should be null
+            forwardTonAmount: ton("0,01"),//Int as coins; // should be ton("0.01")
+            forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
+          }.toCell()
+        });
+      }
+    }
   } 
   
-  get fun price(jetton: Address): Int { 
+  get fun price(jetton: Address): Int {  
+    require(jetton == self.jettonAddressA || jetton == self.jettonAddressB,"");
+    if(jetton == self.jettonAddressA){
+      return self.aAmount*self.decimal/self.bAmount;
+    }else{
+      return self.bAmount*self.decimal/self.aAmount;
+    }
   }
   
   get fun balance(jetton: Address): Int { 
+    require(jetton == self.jettonAddressA || jetton == self.jettonAddressB,"");
+    if(jetton == self.jettonAddressA){
+      return self.aAmount;
+    }else{
+      return self.bAmount;
+    }
   }
 }
