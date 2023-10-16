@@ -102,8 +102,8 @@ contract Task3 with Deployable {
             queryId: msg.queryId,//Int as uint64; // should be 0
             amount: msg.amount*self.decimal*self.aAmount/self.bAmount,//Int as coins; // should be amount of jettons to send
             destination: msg.from,//Address; // should be user address / TokenNotification.from
-            // responseDestination: ,//Address?; // should be myAddress()
-            // customPayload: ,//Cell?; // should be null
+            responseDestination: myAddress(),//Address?; // should be myAddress()
+            customPayload: null,//Cell?; // should be null
             forwardTonAmount: ton("0,01"),//Int as coins; // should be ton("0.01")
             forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
           }.toCell()
