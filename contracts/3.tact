@@ -106,7 +106,7 @@ contract Task3 with Deployable {
             destination: msg.from,//Address; // should be user address / TokenNotification.from
             responseDestination: myAddress(),//Address?; // should be myAddress()
             customPayload: null,//Cell?; // should be null
-            forwardTonAmount: ton("0,01"),//Int as coins; // should be ton("0.01")
+            forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
             forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
           }.toCell()
         });
