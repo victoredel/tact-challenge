@@ -75,7 +75,7 @@ contract Task3 with Deployable {
       }else{
         self.bAmount=self.bAmount+msg.amount;
       }
-    }/*else{
+    }else{
       if(sender()==self.jettonAddressA){
         require(msg.amount<=self.aAmount,"");
         send(SendParameters{
@@ -92,8 +92,8 @@ contract Task3 with Deployable {
             forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
           }.toCell()
         });
-        self.aAmount = self.aAmount - self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
-        self.bAmount = self.bAmount + msg.amount;
+        self.bAmount = self.bAmount - self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal;
+        self.aAmount = self.aAmount + msg.amount;
       }else{
         require(msg.amount<=self.bAmount,"");
         send(SendParameters{
@@ -113,7 +113,7 @@ contract Task3 with Deployable {
         self.aAmount = self.aAmount - self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
         self.bAmount = self.bAmount + msg.amount;
       }
-    }*/
+    }
   } 
   
   get fun price(jetton: Address): Int {  
