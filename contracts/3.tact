@@ -75,7 +75,7 @@ contract Task3 with Deployable {
       }else{
         self.bAmount=self.bAmount+msg.amount;
       }
-    // }else*/{
+     }else*///{
       if(sender()==self.jettonAddressA){
         require(msg.amount<=self.aAmount,"");
         send(SendParameters{
