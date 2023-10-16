@@ -79,28 +79,30 @@ contract Task3 with Deployable {
       if(sender()==self.jettonAddressA){
         require(msg.amount<=self.aAmount,"");
         send(SendParameters{
-          to: sender(),
+          to: self.jettonAddressB,
           value: 0,
           mode: 66,
           body: TokenTransfer{
             queryId: msg.queryId,//Int as uint64; // should be 0
-            amount: msg.amount*self.decimal*self.bAmount/self.aAmount,//Int as coins; // should be amount of jettons to send
+            amount: self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal,//Int as coins; // should be amount of jettons to send
             destination: msg.from,//Address; // should be user address / TokenNotification.from
             responseDestination: myAddress(),//Address?; // should be myAddress()
             customPayload: null,//Cell?; // should be null
-            forwardTonAmount: ton("0,01"),//Int as coins; // should be ton("0.01")
+            forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
             forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
           }.toCell()
         });
+        self.aAmount = self.aAmount - self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
+        self.bAmount = self.bAmount + msg.amount;
       }else{
         require(msg.amount<=self.bAmount,"");
         send(SendParameters{
-          to: sender(),
+          to: self.jettonAddressA,
           value: 0,
           mode: 66,
           body: TokenTransfer{
             queryId: msg.queryId,//Int as uint64; // should be 0
-            amount: msg.amount*self.decimal*self.aAmount/self.bAmount,//Int as coins; // should be amount of jettons to send
+            amount: self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal,//Int as coins; // should be amount of jettons to send
             destination: msg.from,//Address; // should be user address / TokenNotification.from
             responseDestination: myAddress(),//Address?; // should be myAddress()
             customPayload: null,//Cell?; // should be null
@@ -108,6 +110,8 @@ contract Task3 with Deployable {
             forwardPayload: msg.forwardPayload//Slice as remaining; // should be emptySlice()
           }.toCell()
         });
+        self.aAmount = self.aAmount - self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
+        self.bAmount = self.bAmount + msg.amount;
       }
     }
   } 
