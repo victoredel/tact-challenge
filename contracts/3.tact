@@ -83,7 +83,7 @@ contract Task3 with Deployable {
         self.aAmount = self.aAmount + msg.amount;
         send(SendParameters{
           to: self.jettonAddressB,
-          value: ton("0,01"),
+          value: ton("0.01"),
           mode: 66,
           body: TokenTransfer{
             queryId: 0,//Int as uint64; // should be 0
@@ -102,7 +102,7 @@ contract Task3 with Deployable {
         self.bAmount = self.bAmount + msg.amount;
         send(SendParameters{
           to: self.jettonAddressA,
-          value: ton("0,01"),
+          value: ton("0.01"),
           mode: 66,
           body: TokenTransfer{
             queryId: 0,//Int as uint64; // should be 0
