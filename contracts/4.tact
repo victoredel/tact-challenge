@@ -49,10 +49,10 @@ message NftWithdrawal {
 contract Task4 with Deployable {
 
   seed: Int as uint128;
-  prevOwner: Address;
-  nftAddress: Address;
-  waitTime: Int as uint32;
-  ini: Int as uint32;
+  prevOwner: Address=myAddress();
+  nftAddress: Address=myAddress();
+  waitTime: Int as uint32=0;
+  ini: Int as uint32=0;
   ocupate: Bool;
 
   init(seed: Int) {
