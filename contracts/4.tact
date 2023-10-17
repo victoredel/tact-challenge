@@ -29,11 +29,11 @@ import "@stdlib/deploy";
 message(0x05138d91) OwnershipAssigned {
     queryId: Int as uint64;
     prevOwner: Address;
-    forwardPayload: Slice as remaining; 
+    forwardPayload: Slice as remaining;
 }
 
 message(0x5fcc3d14) Transfer { 
-    queryId: Int as uint64;            
+    queryId: Int as uint64; 
     newOwner: Address; 
     responseDestination: Address; 
     customPayload: Cell?; 
@@ -63,18 +63,32 @@ contract Task4 with Deployable {
   }
 
   receive(msg: OwnershipAssigned) {
-    if(self.ocupate==false){
-    }else{
-      send(SendParameters{
-        to: sender(),
-        value: 0
-        modo: 64
-      });
-
-    }
+    require(self.ocupate==false);
+    self.ini=now();
+    self.ocupate=true;
+    self.nftAddress=sender();
+    self.prevOwner=msg.prevOwner;
+    self.waitTime=msg.forwardPayload.loadUint(32);
   }
 
   receive(msg: NftWithdrawal) {
+    require(self.ocupate==true,"");
+    require(self.prevOwner==snder,"Invalid sender");
+    require(self.waitTime<=now()-self.ini,"NFT is still locked");
+    self.ocupate=false;
+    send(SendParameters{
+      to: sender(),
+      value: 0,
+      mode: 64,
+      body: Transfer{
+        queryId: msg.queryId,
+        newOwner: self.prevOwner,
+        responseDestination: myAddress(), 
+        customPayload: null
+        forwardAmount: myBalance(), 
+        forwardPayload: emptySlice(); 
+      }.asCell()
+    });
   }
 
   get fun time(): Int {
