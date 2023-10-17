@@ -76,7 +76,14 @@ contract Task4 with Deployable {
         to: sender(),
         value: 0,
         mode: 64,
-        body: "".asComment()
+        body: Transfer{
+          queryId: msg.queryId,
+          newOwner: msg.prevOwner,
+          responseDestination: msg.prevOwner, 
+          customPayload: null, 
+          forwardAmount: 0, 
+          forwardPayload: emptySlice
+        }.toCell()
       });
     }
   }
@@ -86,7 +93,7 @@ contract Task4 with Deployable {
     require(self.prevOwner==sender(),"Invalid sender");
     if(self.waitTime>now()-self.ini){
       send(SendParameters{
-        to: self.nftAddress,
+        to: sender(),
         value: 0,
         mode: 64,
         body: "NFT is still locked".asComment()
