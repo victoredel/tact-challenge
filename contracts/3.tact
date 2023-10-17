@@ -96,11 +96,7 @@ contract Task3 with Deployable {
             }.toCell()
           });
         }else{
-          send(SendParameters{
-            to: self.jettonAddressA,
-            value: 0,
-            mode: 64
-          });
+          self.reply();
         }
       }else{
         if(msg.amount<=self.bAmount){
@@ -122,11 +118,7 @@ contract Task3 with Deployable {
             }.toCell()
           });
         }else{
-          send(SendParameters{
-            to: self.jettonAddressB,
-            value: 0,
-            mode: 64
-          });
+          self.reply();
         }
       }
     }
