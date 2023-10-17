@@ -78,6 +78,10 @@ contract Task4 with Deployable {
     require(self.prevOwner==sender(),"Invalid sender");
     require(self.waitTime<=now()-self.ini,"NFT is still locked");
     self.ocupate=false;
+    self.prevOwner=myAddress();
+    self.nftAddress=myAddress();
+    self.ini=0;
+    self.waitTime=0;
     send(SendParameters{
       to: sender(),
       value: 0,
@@ -104,9 +108,4 @@ contract Task4 with Deployable {
   get fun owner(): Address? {
     return self.prevOwner;
   }
-  ocupate=false;
-  prevOwner=myAddress();
-  nftAddress=myAddress();
-  ini=0;
-  waitTime=0;
 }
