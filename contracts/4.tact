@@ -86,7 +86,7 @@ contract Task4 with Deployable {
         responseDestination: myAddress(), 
         customPayload: null,
         forwardAmount: myBalance(), 
-        forwardPayload: emptySlice(); 
+        forwardPayload: emptySlice()
       }.asCell()
     });
   }
