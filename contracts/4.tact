@@ -73,7 +73,7 @@ contract Task4 with Deployable {
       self.waitTime=msg.forwardPayload.loadUint(32);
     }else{
       send(SendParameters{
-        to: sender(),
+        to: context().sender,
         value: 0,
         mode: 64,
         body: Transfer{
