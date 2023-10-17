@@ -61,7 +61,7 @@ contract Task4 with Deployable {
   }
 
   receive(msg: OwnershipAssigned) {
-    require(self.ocupate==false);
+    require(self.ocupate==false,"");
     self.ini=now();
     self.ocupate=true;
     self.nftAddress=sender();
