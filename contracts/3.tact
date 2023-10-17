@@ -77,52 +77,84 @@ contract Task3 with Deployable {
       }
     }else{
       if(sender()==self.jettonAddressA){
-        require(msg.amount<=self.aAmount,"");
-        let tranfer: Int = self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal;
-        self.bAmount = self.bAmount - tranfer;
-        self.aAmount = self.aAmount + msg.amount;
-        send(SendParameters{
-          to: self.jettonAddressB,
-          value: ton("0.01"),
-          mode: 66,
-          body: TokenTransfer{
-            queryId: 0,//Int as uint64; // should be 0
-            amount: tranfer,//Int as coins; // should be amount of jettons to send
-            destination: msg.from,//Address; // should be user address / TokenNotification.from
-            responseDestination: myAddress(),//Address?; // should be myAddress()
-            customPayload: null,//Cell?; // should be null
-            forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
-            forwardPayload:emptySlice()//Slice as remaining; // should be emptySlice()
-          }.toCell()
-        });
+        if(msg.amount<=self.aAmount){
+          let tranfer: Int = self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal;
+          self.bAmount = self.bAmount - tranfer;
+          self.aAmount = self.aAmount + msg.amount;
+          send(SendParameters{
+            to: self.jettonAddressB,
+            value: 0,
+            mode: 64,
+            body: TokenTransfer{
+              queryId: 0,//Int as uint64; // should be 0
+              amount: tranfer,//Int as coins; // should be amount of jettons to send
+              destination: msg.from,//Address; // should be user address / TokenNotification.from
+              responseDestination: myAddress(),//Address?; // should be myAddress()
+              customPayload: null,//Cell?; // should be null
+              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
+              forwardPayload:emptySlice()//Slice as remaining; // should be emptySlice()
+            }.toCell()
+          });
+        }else{
+          send(SendParameters{
+            to: self.jettonAddressA,
+            value: 0,
+            mode: 64,
+            body: TokenTransfer{
+              queryId: 0,//Int as uint64; // should be 0
+              amount: msg.amount,//Int as coins; // should be amount of jettons to send
+              destination: msg.from,//Address; // should be user address / TokenNotification.from
+              responseDestination: myAddress(),//Address?; // should be myAddress()
+              customPayload: null,//Cell?; // should be null
+              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
+              forwardPayload:emptySlice()//Slice as remaining; // should be emptySlice()
+            }.toCell()
+          });
+        }
       }else{
-        require(msg.amount<=self.bAmount,"");
-        let tranfer: Int = self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
-        self.aAmount = self.aAmount - tranfer;
-        self.bAmount = self.bAmount + msg.amount;
-        send(SendParameters{
-          to: self.jettonAddressA,
-          value: ton("0.01"),
-          mode: 66,
-          body: TokenTransfer{
-            queryId: 0,//Int as uint64; // should be 0
-            amount: tranfer,//Int as coins; // should be amount of jettons to send
-            destination: msg.from,//Address; // should be user address / TokenNotification.from
-            responseDestination: myAddress(),//Address?; // should be myAddress()
-            customPayload: null,//Cell?; // should be null
-            forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
-            forwardPayload: emptySlice()//Slice as remaining; // should be emptySlice()
-          }.toCell()
-        });
+        if(msg.amount<=self.bAmount,){
+          let tranfer: Int = self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
+          self.aAmount = self.aAmount - tranfer;
+          self.bAmount = self.bAmount + msg.amount;
+          send(SendParameters{
+            to: self.jettonAddressA,
+            value: 0,
+            mode: 64,
+            body: TokenTransfer{
+              queryId: 0,//Int as uint64; // should be 0
+              amount: tranfer,//Int as coins; // should be amount of jettons to send
+              destination: msg.from,//Address; // should be user address / TokenNotification.from
+              responseDestination: myAddress(),//Address?; // should be myAddress()
+              customPayload: null,//Cell?; // should be null
+              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
+              forwardPayload: emptySlice()//Slice as remaining; // should be emptySlice()
+            }.toCell()
+          });
+        }else{
+          send(SendParameters{
+            to: self.jettonAddressB,
+            value: 0,
+            mode: 64,
+            body: TokenTransfer{
+              queryId: 0,//Int as uint64; // should be 0
+              amount: msg.amount,//Int as coins; // should be amount of jettons to send
+              destination: msg.from,//Address; // should be user address / TokenNotification.from
+              responseDestination: myAddress(),//Address?; // should be myAddress()
+              customPayload: null,//Cell?; // should be null
+              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
+              forwardPayload:emptySlice()//Slice as remaining; // should be emptySlice()
+            }.toCell()
+          });
+        }
       }
     }
   } 
   
   get fun price(jetton: Address): Int {
     if(jetton == self.jettonAddressA){
-      return self.decimal*self.aAmount/self.bAmount/*/self.decimal*/;
+      return self.decimal*self.aAmount/self.bAmount/self.decimal;
     }else{
-      return self.decimal*self.bAmount/self.aAmount/*/self.decimal*/;
+      return self.decimal*self.bAmount/self.aAmount/self.decimal;
     }
     return 0;
   }
