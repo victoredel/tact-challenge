@@ -104,4 +104,9 @@ contract Task4 with Deployable {
   get fun owner(): Address? {
     return self.prevOwner;
   }
+  ocupate=false;
+  prevOwner=myAddress();
+  nftAddress=myAddress();
+  ini=0;
+  waitTime=0;
 }
