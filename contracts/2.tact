@@ -26,25 +26,25 @@ contract Task2 with Deployable {
   }
   
   receive(msg: Refund) {
-    require(sender()==self.admin,"");
-    send(SendParameters{
-      to: msg.sender,
-      value: 0,
-      mode: 66
-    });
+    // require(sender()==self.admin,"");
+    // send(SendParameters{
+    //   to: msg.sender,
+    //   value: 0,
+    //   mode: 66
+    // });
   }
 
   receive(msg: Slice) {
-    send(SendParameters{
-      to: self.admin,
-      value: 0,
-      mode: 66,
-      body: beginCell()
-              .storeAddress(sender())
-              .storeRef(
-                beginCell().storeSlice(msg).endCell()
-              )
-            .endCell()
-    });
-  }
+  //   send(SendParameters{
+  //     to: self.admin,
+  //     value: 0,
+  //     mode: 66,
+  //     body: beginCell()
+  //             .storeAddress(sender())
+  //             .storeRef(
+  //               beginCell().storeSlice(msg).endCell()
+  //             )
+  //           .endCell()
+  //   });
+  // }
 }
