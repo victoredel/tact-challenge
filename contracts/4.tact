@@ -85,7 +85,7 @@ contract Task4 with Deployable {
       });
     }else{
       send(SendParameters{
-        to: sender(),
+        to: self.nftAddress,
         value: 0,
         mode: 64,
         body: Transfer{
