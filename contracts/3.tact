@@ -99,16 +99,7 @@ contract Task3 with Deployable {
           send(SendParameters{
             to: self.jettonAddressA,
             value: 0,
-            mode: 64,
-            body: TokenTransfer{
-              queryId: 0,//Int as uint64; // should be 0
-              amount: msg.amount,//Int as coins; // should be amount of jettons to send
-              destination: msg.from,//Address; // should be user address / TokenNotification.from
-              responseDestination: myAddress(),//Address?; // should be myAddress()
-              customPayload: null,//Cell?; // should be null
-              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
-              forwardPayload:emptySlice()//Slice as remaining; // should be emptySlice()
-            }.toCell()
+            mode: 64
           });
         }
       }else{
@@ -134,16 +125,7 @@ contract Task3 with Deployable {
           send(SendParameters{
             to: self.jettonAddressB,
             value: 0,
-            mode: 64,
-            body: TokenTransfer{
-              queryId: 0,//Int as uint64; // should be 0
-              amount: msg.amount,//Int as coins; // should be amount of jettons to send
-              destination: msg.from,//Address; // should be user address / TokenNotification.from
-              responseDestination: myAddress(),//Address?; // should be myAddress()
-              customPayload: null,//Cell?; // should be null
-              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
-              forwardPayload:emptySlice()//Slice as remaining; // should be emptySlice()
-            }.toCell()
+            mode: 64
           });
         }
       }
