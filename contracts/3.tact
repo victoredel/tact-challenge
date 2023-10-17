@@ -118,18 +118,16 @@ contract Task3 with Deployable {
     }
   } 
   
-  get fun price(jetton: Address): Int {/*  
-    require(jetton == self.jettonAddressA || jetton == self.jettonAddressB,"");
+  get fun price(jetton: Address): Int {
     if(jetton == self.jettonAddressA){
-      return self.decimal*self.aAmount/self.bAmount/self.decimal;
+      return self.decimal*self.aAmount/self.bAmount/*/self.decimal*/;
     }else{
-      return self.decimal*self.bAmount/self.aAmount/self.decimal;
-    }*/
+      return self.decimal*self.bAmount/self.aAmount/*/self.decimal*/;
+    }
     return 0;
   }
   
   get fun balance(jetton: Address): Int { 
-    require(jetton == self.jettonAddressA || jetton == self.jettonAddressB,"");
     if(jetton == self.jettonAddressA){
       return self.aAmount;
     }else{
