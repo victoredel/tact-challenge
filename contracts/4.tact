@@ -89,7 +89,7 @@ contract Task4 with Deployable {
   }
 
   receive(msg: NftWithdrawal) {
-    require(self.prevOwner==sender(),"Invalid sender");
+    require(self.prevOwner!! == sender(),"Invalid sender");
     if(self.waitTime>now()-self.ini){
       send(SendParameters{
         to: sender(),
@@ -99,13 +99,13 @@ contract Task4 with Deployable {
       });
     }else{
       send(SendParameters{
-        to: self.nftAddress,
+        to: self.nftAddress!!,
         value: 0,
         mode: 64,
         body: Transfer{
           queryId: msg.queryId,
-          newOwner: self.prevOwner,
-          responseDestination: self.prevOwner,
+          newOwner: self.prevOwner!!,
+          responseDestination: self.prevOwner!!,
           customPayload: null,
           forwardAmount: 0, 
           forwardPayload: emptySlice()
@@ -124,10 +124,10 @@ contract Task4 with Deployable {
   }
 
   get fun nft(): Address? {
-    return self.nftAddress;
+    return self.nftAddress!!;
   }
 
   get fun owner(): Address? {
-    return self.prevOwner;
+    return self.prevOwner!!;
   }
 }

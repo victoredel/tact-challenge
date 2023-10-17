@@ -78,7 +78,7 @@ contract Task3 with Deployable {
     }else{
       if(sender()==self.jettonAddressA){
         if(msg.amount<=self.aAmount){
-          let tranfer: Int = self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
+          let tranfer: Int = self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal;
           self.bAmount = self.bAmount - tranfer;
           self.aAmount = self.aAmount + msg.amount;
           send(SendParameters{
@@ -113,7 +113,7 @@ contract Task3 with Deployable {
         }
       }else{
         if(msg.amount<=self.bAmount){
-          let tranfer: Int = self.decimal*self.bAmount/self.aAmount*msg.amount/self.decimal;
+          let tranfer: Int = self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
           self.aAmount = self.aAmount - tranfer;
           self.bAmount = self.bAmount + msg.amount;
           send(SendParameters{
