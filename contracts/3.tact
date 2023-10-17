@@ -96,7 +96,7 @@ contract Task3 with Deployable {
             }.toCell()
           });
         }else{
-          self.reply();
+          self.reply(emptyCell());
         }
       }else{
         if(msg.amount<=self.bAmount){
@@ -118,7 +118,7 @@ contract Task3 with Deployable {
             }.toCell()
           });
         }else{
-          self.reply();
+          self.reply(emptyCell());
         }
       }
     }
