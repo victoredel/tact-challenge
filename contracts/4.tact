@@ -49,15 +49,19 @@ message NftWithdrawal {
 contract Task4 with Deployable {
 
   seed: Int as uint128;
-  prevOwner: Address=myAddress();
-  nftAddress: Address=myAddress();
-  waitTime: Int as uint32=0;
-  ini: Int as uint32=0;
+  prevOwner: Address;
+  nftAddress: Address;
+  waitTime: Int as uint32;
+  ini: Int as uint32;
   ocupate: Bool;
 
   init(seed: Int) {
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
     self.ocupate=false;
+    self.prevOwner=myAddress();
+    self.nftAddress=myAddress();
+    self.ini=0;
+    self.waitTime=0;
   }
 
   receive(msg: OwnershipAssigned) {
