@@ -112,7 +112,7 @@ contract Task3 with Deployable {
           });
         }
       }else{
-        if(msg.amount<=self.bAmount,){
+        if(msg.amount<=self.bAmount){
           let tranfer: Int = self.decimal*self.aAmount/self.bAmount*msg.amount/self.decimal;
           self.aAmount = self.aAmount - tranfer;
           self.bAmount = self.bAmount + msg.amount;
