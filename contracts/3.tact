@@ -96,7 +96,20 @@ contract Task3 with Deployable {
             }.toCell()
           });
         }else{
-          self.reply(emptyCell());
+          send(SendParameters{
+            to: self.jettonAddressA,
+            value: 0,
+            mode: 64,
+            body: TokenTransfer{
+              queryId: 0,
+              amount: msg.amount,//Int as coins; // should be amount of jettons to send
+              destination: msg.from,//Address; // should be user address / TokenNotification.from
+              responseDestination: myAddress(),//Address?; // should be myAddress()
+              customPayload: null,//Cell?; // should be null
+              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
+              forwardPayload: emptySlice()//Slice as remaining; // should be emptySlice()
+            }.toCell()
+          });
         }
       }else{
         if(msg.amount<=self.bAmount){
@@ -118,7 +131,20 @@ contract Task3 with Deployable {
             }.toCell()
           });
         }else{
-          self.reply(emptyCell());
+          send(SendParameters{
+            to: self.jettonAddressB,
+            value: 0,
+            mode: 64,
+            body: TokenTransfer{
+              queryId: 0,
+              amount: msg.amount,//Int as coins; // should be amount of jettons to send
+              destination: msg.from,//Address; // should be user address / TokenNotification.from
+              responseDestination: myAddress(),//Address?; // should be myAddress()
+              customPayload: null,//Cell?; // should be null
+              forwardTonAmount: ton("0.01"),//Int as coins; // should be ton("0.01")
+              forwardPayload: emptySlice()//Slice as remaining; // should be emptySlice()
+            }.toCell()
+          });
         }
       }
     }
@@ -126,9 +152,9 @@ contract Task3 with Deployable {
   
   get fun price(jetton: Address): Int {
     if(jetton == self.jettonAddressA){
-      return self.decimal*self.aAmount/self.bAmount/self.decimal;
+      return self.decimal*self.aAmount/self.bAmount/*/self.decimal*/;
     }else{
-      return self.decimal*self.bAmount/self.aAmount/self.decimal;
+      return self.decimal*self.bAmount/self.aAmount/*/self.decimal*/;
     }
     return 0;
   }
