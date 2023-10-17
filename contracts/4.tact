@@ -84,7 +84,7 @@ contract Task4 with Deployable {
         queryId: msg.queryId,
         newOwner: self.prevOwner,
         responseDestination: myAddress(), 
-        customPayload: null
+        customPayload: null,
         forwardAmount: myBalance(), 
         forwardPayload: emptySlice(); 
       }.asCell()
