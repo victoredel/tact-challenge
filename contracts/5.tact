@@ -83,7 +83,7 @@ contract Task5 with Deployable {
       self.nfts.set(self.counter,send());
       self.counter = self.counter + 1;
     }else{
-      if(context().value<21e8){
+      if(context().value<2100000000){
         send(SendParameters{
           to: sender(),
           value:context().value,
@@ -98,10 +98,10 @@ contract Task5 with Deployable {
           }
         });
       }else{
-        self.money = self.money + 2e9;
+        self.money = self.money + 2000000000;
         send(SendParameters{
           to: sender(),
-          value:context().value-2e9,
+          value:context().value-2000000000,
           mode: 64,
           body: Transfer{
             queryId: msg.queryId,            
@@ -123,7 +123,7 @@ contract Task5 with Deployable {
   }
 
   get fun profit(): Int {
-    return self.money-1e8;
+    return self.money-100000000;
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
