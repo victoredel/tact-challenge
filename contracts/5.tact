@@ -117,9 +117,35 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalProfit) {
+    require(sender()==self.owner,"a");
+    send(SendParameters{
+      to: sender(),
+      value: myBalance()-100000000,
+      mode: 64,
+      body: AdminFetchProfit{
+        queryId: msg.queryId
+      }.toCell()
+    });
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
+    require(context().value>=ton("1")+ton("0.08") * self.counter,"Insufficient funds");
+    require(sender()==self.owner,"Invalid sender");
+    while(self.counter>0){
+      send(SendParameters{
+        to: self.nfts.get(self.counter-1)!!,
+        value: 0,
+        mode: 64,
+        body: Transfer{
+            queryId: msg.queryId,            
+            newOwner: sender(), 
+            responseDestination: sender(),
+            customPayload: null,
+            forwardAmount: 0,
+            forwardPayload: emptySlice() 
+        }.toCell()
+      });
+    }
   }
 
   get fun profit(): Int {
