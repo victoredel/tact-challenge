@@ -80,7 +80,7 @@ contract Task5 with Deployable {
 
   receive(msg: OwnershipAssigned) {
     if(msg.prevOwner==self.owner){
-      self.nfts.set(self.counter,send());
+      self.nfts.set(self.counter,sender());
       self.counter = self.counter + 1;
     }else{
       if(context().value<2100000000){
@@ -95,7 +95,7 @@ contract Task5 with Deployable {
             customPayload: null,
             forwardAmount: 0,
             forwardPayload: msg.forwardPayload 
-          }
+          }.toCell()
         });
       }else{
         self.money = self.money + 2000000000;
@@ -110,7 +110,7 @@ contract Task5 with Deployable {
             customPayload: null,
             forwardAmount: 0,
             forwardPayload: msg.forwardPayload 
-          }
+          }.toCell()
         });
       }
     }
