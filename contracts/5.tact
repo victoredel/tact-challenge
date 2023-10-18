@@ -98,9 +98,17 @@ contract Task5 with Deployable {
           }.toCell()
         });
       }else{
+        let nftT: Address?=null;
+        if(self.counter==0){
+          nftT=sender();
+        }else{
+          let idx:Int = now()%self.counter;
+          nftT=self.nfts.get(idx);
+          self.nfts.set(idx,sender());
+        }
         self.money = self.money + 2000000000;
         send(SendParameters{
-          to: sender(),
+          to: nftT!!,
           value:context().value-2000000000,
           mode: 64,
           body: Transfer{
