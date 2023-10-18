@@ -145,7 +145,9 @@ contract Task5 with Deployable {
             forwardPayload: emptySlice() 
         }.toCell()
       });
+      self.counter = self.counter - 1;
     }
+    self.nfts = emptyMap();
   }
 
   get fun profit(): Int {
