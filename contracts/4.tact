@@ -121,7 +121,9 @@ contract Task4 with Deployable {
 
   get fun time(): Int {
     let x: Int = self.waitTime-(now()-self.ini);
-    if(x<0)return 0;
+    if(x<0){
+      return 0;
+    }
     return x;
   }
 

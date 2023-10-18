@@ -69,11 +69,13 @@ contract Task5 with Deployable {
   owner: Address;
   counter: Int as uint64;
   nfts: map<Int as uint16, Address>;
+  money: Int as uint64;
 
   init(seed: Int, owner: Address) {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
     self.counter = 0;
+    self.money = 0;
   }
 
   receive(msg: OwnershipAssigned) {
@@ -82,7 +84,34 @@ contract Task5 with Deployable {
       self.counter = self.counter + 1;
     }else{
       if(context().value<21e8){
-        if(context().value>=)
+        send(SendParameters{
+          to: sender(),
+          value:context().value,
+          mode: 64,
+          body: Transfer{
+            queryId: msg.queryId,            
+            newOwner: msg.prevOwner, 
+            responseDestination: msg.prevOwner, 
+            customPayload: null,
+            forwardAmount: 0,
+            forwardPayload: msg.forwardPayload 
+          }
+        });
+      }else{
+        self.money = self.money + 2e9;
+        send(SendParameters{
+          to: sender(),
+          value:context().value-2e9,
+          mode: 64,
+          body: Transfer{
+            queryId: msg.queryId,            
+            newOwner: msg.prevOwner, 
+            responseDestination: msg.prevOwner,
+            customPayload: null,
+            forwardAmount: 0,
+            forwardPayload: msg.forwardPayload 
+          }
+        });
       }
     }
   }
@@ -94,7 +123,7 @@ contract Task5 with Deployable {
   }
 
   get fun profit(): Int {
-    return (self.counter*2-0,1)e9;
+    return self.money-1e8;
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
