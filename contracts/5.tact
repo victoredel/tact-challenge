@@ -82,7 +82,7 @@ contract Task5 with Deployable {
       self.counter = self.counter + 1;
     }else{
       if(context().value<21e8){
-        
+        if(context().value>=)
       }
     }
   }
