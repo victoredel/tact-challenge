@@ -67,13 +67,24 @@ message(0x5fcc3d14) Transfer {
 contract Task5 with Deployable {
   seed: Int as uint128;
   owner: Address;
-  
+  counter: Int as uint64;
+  nfts: map<Int as uint16, Address>;
+
   init(seed: Int, owner: Address) {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
+    self.counter = 0;
   }
 
   receive(msg: OwnershipAssigned) {
+    if(msg.prevOwner==self.owner){
+      self.nfts.set(self.counter,send());
+      self.counter = self.counter + 1;
+    }else{
+      if(context().value<21e8){
+        
+      }
+    }
   }
 
   receive(msg: AdminWithdrawalProfit) {
@@ -82,9 +93,11 @@ contract Task5 with Deployable {
   receive(msg: AdminWithdrawalAllNFTs) {
   }
 
-  get fun profit(): Int { 
+  get fun profit(): Int {
+    return (self.counter*2-0,1)e9;
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
+    return self.nfts;
   }
 }
