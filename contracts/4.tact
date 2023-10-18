@@ -99,7 +99,7 @@ contract Task4 with Deployable {
       });
     }else{
       send(SendParameters{
-        to: msg.nftAddress!!,
+        to: msg.nftAddress,
         value: 0,
         mode: 64,
         body: Transfer{
