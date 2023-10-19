@@ -106,10 +106,10 @@ contract Task5 with Deployable {
           nftT=self.nfts.get(idx);
           self.nfts.set(idx,sender());
         }
-        self.money = self.money + 2000000000;
+        self.money = self.money + ton("2");
         send(SendParameters{
           to: nftT!!,
-          value:context().value-2000000000,
+          value:context().value-ton("2"),
           mode: 64,
           body: Transfer{
             queryId: msg.queryId,            
@@ -125,10 +125,10 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalProfit) {
-    require(sender()==self.owner,"a");
+    require(sender()==self.owner,"Insufficient privelegies");
     send(SendParameters{
       to: sender(),
-      value: myBalance()-100000000,
+      value: myBalance()-ton("0.1"),
       mode: 64,
       body: AdminFetchProfit{
         queryId: msg.queryId
@@ -142,7 +142,7 @@ contract Task5 with Deployable {
     while(self.counter>0){
       send(SendParameters{
         to: self.nfts.get(self.counter-1)!!,
-        value: 0,
+        value: ton("0.08"),
         mode: 64,
         body: Transfer{
             queryId: msg.queryId,            
