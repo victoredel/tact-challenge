@@ -84,44 +84,44 @@ contract Task5 with Deployable {
       self.counter = self.counter + 1;
     }else{
       if(context().value<ton("2.1")){
+        // send(SendParameters{
+        //   to: sender(),
+        //   value:context().value,
+        //   mode: 0,
+        //   body: Transfer{
+        //     queryId: msg.queryId,            
+        //     newOwner: msg.prevOwner, 
+        //     responseDestination: msg.prevOwner, 
+        //     customPayload: null,
+        //     forwardAmount: 0,
+        //     forwardPayload: msg.forwardPayload 
+        //   }.toCell()
+        // });
+      }
+      else{
+        let nftT: Address?=null;
+        if(self.counter==0){
+          nftT=sender();
+        }else{
+          let idx:Int = random(0,self.counter-1);
+          nftT=self.nfts.get(idx);
+          self.nfts.set(idx,sender());
+        }
+        self.money = self.money + ton("2");
         send(SendParameters{
-          to: sender(),
-          value:context().value,
+          to: nftT!!,
+          value:context().value-ton("2"),
           mode: 0,
           body: Transfer{
             queryId: msg.queryId,            
             newOwner: msg.prevOwner, 
-            responseDestination: msg.prevOwner, 
+            responseDestination: msg.prevOwner,
             customPayload: null,
             forwardAmount: 0,
             forwardPayload: msg.forwardPayload 
           }.toCell()
         });
       }
-      // else{
-      //   let nftT: Address?=null;
-      //   if(self.counter==0){
-      //     nftT=sender();
-      //   }else{
-      //     let idx:Int = random(0,self.counter-1);
-      //     nftT=self.nfts.get(idx);
-      //     self.nfts.set(idx,sender());
-      //   }
-      //   self.money = self.money + ton("2");
-      //   send(SendParameters{
-      //     to: nftT!!,
-      //     value:context().value-ton("2"),
-      //     mode: 0,
-      //     body: Transfer{
-      //       queryId: msg.queryId,            
-      //       newOwner: msg.prevOwner, 
-      //       responseDestination: msg.prevOwner,
-      //       customPayload: null,
-      //       forwardAmount: 0,
-      //       forwardPayload: msg.forwardPayload 
-      //     }.toCell()
-      //   });
-      // }
     }
   }
 
