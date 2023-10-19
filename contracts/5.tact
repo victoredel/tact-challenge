@@ -101,9 +101,13 @@ contract Task5 with Deployable {
         if(self.counter==0){
           nftT=sender();
         }else{
-          let idx:Int = random(0,self.counter-1);
-          nftT=self.nfts.get(idx);
-          self.nfts.set(idx,sender());
+          let idx:Int = random(0,self.counter);
+          if(idx==self.counter){
+            nftT=sender();
+          }else{
+            nftT=self.nfts.get(idx);
+            self.nfts.set(idx,sender());
+          }
         }
         send(SendParameters{
           to: nftT!!,
