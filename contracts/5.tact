@@ -94,7 +94,7 @@ contract Task5 with Deployable {
             responseDestination: msg.prevOwner, 
             customPayload: null,
             forwardAmount: 0,
-            forwardPayload: msg.forwardPayload 
+            forwardPayload: emptySlice()
           }.toCell()
         });
       }
@@ -118,7 +118,7 @@ contract Task5 with Deployable {
             responseDestination: msg.prevOwner,
             customPayload: null,
             forwardAmount: 0,
-            forwardPayload: msg.forwardPayload 
+            forwardPayload: emptySlice() 
           }.toCell()
         });
       }
@@ -126,16 +126,16 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalProfit) {
-    // require(sender()==self.owner,"Insufficient privelegies");
-    // send(SendParameters{
-    //   to: sender(),
-    //   value: myBalance()-ton("0.1"),
-    //   mode: 64,
-    //   body: AdminFetchProfit{
-    //     queryId: msg.queryId
-    //   }.toCell()
-    // });
-    // self.money=ton("0.1");
+    require(sender()==self.owner,"Insufficient privelegies");
+    send(SendParameters{
+      to: sender(),
+      value: myBalance()-ton("0.1"),
+      mode: 64,
+      body: AdminFetchProfit{
+        queryId: msg.queryId
+      }.toCell()
+    });
+    self.money=ton("0.1");
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
