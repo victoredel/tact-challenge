@@ -82,84 +82,85 @@ contract Task5 with Deployable {
     if(msg.prevOwner==self.owner){
       self.nfts.set(self.counter,sender());
       self.counter = self.counter + 1;
-    }else{
-      if(context().value<2100000000){
-        send(SendParameters{
-          to: sender(),
-          value:context().value,
-          mode: 64,
-          body: Transfer{
-            queryId: msg.queryId,            
-            newOwner: msg.prevOwner, 
-            responseDestination: msg.prevOwner, 
-            customPayload: null,
-            forwardAmount: 0,
-            forwardPayload: msg.forwardPayload 
-          }.toCell()
-        });
-      }else{
-        let nftT: Address?=null;
-        if(self.counter==0){
-          nftT=sender();
-        }else{
-          let idx:Int = now()%self.counter;
-          nftT=self.nfts.get(idx);
-          self.nfts.set(idx,sender());
-        }
-        self.money = self.money + ton("2");
-        send(SendParameters{
-          to: nftT!!,
-          value:context().value-ton("2"),
-          mode: 64,
-          body: Transfer{
-            queryId: msg.queryId,            
-            newOwner: msg.prevOwner, 
-            responseDestination: msg.prevOwner,
-            customPayload: null,
-            forwardAmount: 0,
-            forwardPayload: msg.forwardPayload 
-          }.toCell()
-        });
-      }
     }
+    // else{
+    //   if(context().value<2100000000){
+    //     send(SendParameters{
+    //       to: sender(),
+    //       value:context().value,
+    //       mode: 64,
+    //       body: Transfer{
+    //         queryId: msg.queryId,            
+    //         newOwner: msg.prevOwner, 
+    //         responseDestination: msg.prevOwner, 
+    //         customPayload: null,
+    //         forwardAmount: 0,
+    //         forwardPayload: msg.forwardPayload 
+    //       }.toCell()
+    //     });
+    //   }else{
+    //     let nftT: Address?=null;
+    //     if(self.counter==0){
+    //       nftT=sender();
+    //     }else{
+    //       let idx:Int = now()%self.counter;
+    //       nftT=self.nfts.get(idx);
+    //       self.nfts.set(idx,sender());
+    //     }
+    //     self.money = self.money + ton("2");
+    //     send(SendParameters{
+    //       to: nftT!!,
+    //       value:context().value-ton("2"),
+    //       mode: 64,
+    //       body: Transfer{
+    //         queryId: msg.queryId,            
+    //         newOwner: msg.prevOwner, 
+    //         responseDestination: msg.prevOwner,
+    //         customPayload: null,
+    //         forwardAmount: 0,
+    //         forwardPayload: msg.forwardPayload 
+    //       }.toCell()
+    //     });
+    //   }
+    // }
   }
 
   receive(msg: AdminWithdrawalProfit) {
-    require(sender()==self.owner,"Insufficient privelegies");
-    send(SendParameters{
-      to: sender(),
-      value: myBalance()-ton("0.1"),
-      mode: 64,
-      body: AdminFetchProfit{
-        queryId: msg.queryId
-      }.toCell()
-    });
+    // require(sender()==self.owner,"Insufficient privelegies");
+    // send(SendParameters{
+    //   to: sender(),
+    //   value: myBalance()-ton("0.1"),
+    //   mode: 64,
+    //   body: AdminFetchProfit{
+    //     queryId: msg.queryId
+    //   }.toCell()
+    // });
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    require(context().value>=ton("1")+ton("0.08") * self.counter,"Insufficient funds");
-    require(sender()==self.owner,"Invalid sender");
-    while(self.counter>0){
-      send(SendParameters{
-        to: self.nfts.get(self.counter-1)!!,
-        value: ton("0.08"),
-        mode: 64,
-        body: Transfer{
-            queryId: msg.queryId,            
-            newOwner: sender(), 
-            responseDestination: sender(),
-            customPayload: null,
-            forwardAmount: 0,
-            forwardPayload: emptySlice() 
-        }.toCell()
-      });
-      self.counter = self.counter - 1;
-    }
-    self.nfts = emptyMap();
+    // require(context().value>=ton("1")+ton("0.08") * self.counter,"Insufficient funds");
+    // require(sender()==self.owner,"Invalid sender");
+    // while(self.counter>0){
+    //   send(SendParameters{
+    //     to: self.nfts.get(self.counter-1)!!,
+    //     value: ton("0.08"),
+    //     mode: 64,
+    //     body: Transfer{
+    //         queryId: msg.queryId,            
+    //         newOwner: sender(), 
+    //         responseDestination: sender(),
+    //         customPayload: null,
+    //         forwardAmount: 0,
+    //         forwardPayload: emptySlice() 
+    //     }.toCell()
+    //   });
+    //   self.counter = self.counter - 1;
+    // }
+    // self.nfts = emptyMap();
   }
 
   get fun profit(): Int {
-    return self.money-100000000;
+    return self.money-ton("0.1");
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
