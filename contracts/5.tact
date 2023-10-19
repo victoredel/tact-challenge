@@ -81,7 +81,7 @@ contract Task5 with Deployable {
       self.nfts.set(self.counter,sender());
       self.counter = self.counter + 1;
     }else{
-      if(context().value<ton("2.1") && context().value >= context().readForwardFee()){
+      if(context().value<ton("2.1")){
         send(SendParameters{
           to: sender(),
           value:0,
@@ -111,8 +111,8 @@ contract Task5 with Deployable {
         }
         send(SendParameters{
           to: nftT!!,
-          value:context().value-ton("2"),
-          mode: 64,
+          value:0,
+          mode: 66,
           body: Transfer{
             queryId: msg.queryId,            
             newOwner: msg.prevOwner, 
@@ -144,8 +144,8 @@ contract Task5 with Deployable {
     while(self.counter>0){
       send(SendParameters{
         to: self.nfts.get(self.counter-1)!!,
-        value: ton("0.08"),
-        mode: 64,
+        value: 0,//ton("0.08"),
+        mode: 66,
         body: Transfer{
             queryId: msg.queryId,            
             newOwner: sender(), 
