@@ -69,13 +69,11 @@ contract Task5 with Deployable {
   owner: Address;
   counter: Int as uint64;
   nfts: map<Int as uint16, Address>;
-  money: Int as uint64;
 
   init(seed: Int, owner: Address) {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
     self.counter = 0;
-    self.money = 0;
   }
 
   receive(msg: OwnershipAssigned) {
@@ -83,7 +81,7 @@ contract Task5 with Deployable {
       self.nfts.set(self.counter,sender());
       self.counter = self.counter + 1;
     }else{
-      if(context().value<ton("2.1")){
+      if(context().value<ton("2.1") && context().value >= context().readForwardFee()){
         send(SendParameters{
           to: sender(),
           value:context().value,
@@ -107,7 +105,6 @@ contract Task5 with Deployable {
           nftT=self.nfts.get(idx);
           self.nfts.set(idx,sender());
         }
-        self.money = self.money + ton("2");
         send(SendParameters{
           to: nftT!!,
           value:context().value-ton("2"),
@@ -135,7 +132,6 @@ contract Task5 with Deployable {
         queryId: msg.queryId
       }.toCell()
     });
-    self.money=ton("0.1");
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
@@ -162,7 +158,6 @@ contract Task5 with Deployable {
 
   get fun profit(): Int {
     return myBalance()-ton("0.1");
-    // return 0;
   }
   
   get fun nfts(): map<Int as uint16, Address> { 
