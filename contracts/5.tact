@@ -84,8 +84,8 @@ contract Task5 with Deployable {
       if(context().value<ton("2.1") && context().value >= context().readForwardFee()){
         send(SendParameters{
           to: sender(),
-          value:context().value,
-          mode: 0,
+          value:0,
+          mode: 66,
           body: Transfer{
             queryId: msg.queryId,            
             newOwner: msg.prevOwner, 
