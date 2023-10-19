@@ -84,19 +84,19 @@ contract Task5 with Deployable {
       self.counter = self.counter + 1;
     }else{
       if(context().value<ton("2.1")){
-        // send(SendParameters{
-        //   to: sender(),
-        //   value:context().value,
-        //   mode: 0,
-        //   body: Transfer{
-        //     queryId: msg.queryId,            
-        //     newOwner: msg.prevOwner, 
-        //     responseDestination: msg.prevOwner, 
-        //     customPayload: null,
-        //     forwardAmount: 0,
-        //     forwardPayload: msg.forwardPayload 
-        //   }.toCell()
-        // });
+        send(SendParameters{
+          to: sender(),
+          value:context().value,
+          mode: 0,
+          body: Transfer{
+            queryId: msg.queryId,            
+            newOwner: msg.prevOwner, 
+            responseDestination: msg.prevOwner, 
+            customPayload: null,
+            forwardAmount: 0,
+            forwardPayload: msg.forwardPayload 
+          }.toCell()
+        });
       }
       else{
         let nftT: Address?=null;
@@ -111,7 +111,7 @@ contract Task5 with Deployable {
         send(SendParameters{
           to: nftT!!,
           value:context().value-ton("2"),
-          mode: 0,
+          mode: 64,
           body: Transfer{
             queryId: msg.queryId,            
             newOwner: msg.prevOwner, 
@@ -135,6 +135,7 @@ contract Task5 with Deployable {
         queryId: msg.queryId
       }.toCell()
     });
+    self.money=ton("0.1");
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
