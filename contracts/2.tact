@@ -1,4 +1,4 @@
-// import "@stdlib/deploy";
+import "@stdlib/deploy";
 
 // /*
 //   TASK 2 - Proxy 
@@ -13,38 +13,38 @@
 //   In refund transaction, it is important to have a check that the refund message came from the admin address
 // */
 
-// message(0x44) Refund {
-//   queryId: Int as uint64;
-//   sender: Address;
-// }
+message(0x44) Refund {
+  queryId: Int as uint64;
+  sender: Address;
+}
 
-// contract Task2 with Deployable {
-//   admin: Address;
+contract Task2 with Deployable {
+  admin: Address;
 
-//   init(admin: Address) {
-//     self.admin = admin;
-//   }
+  init(admin: Address) {
+    self.admin = admin;
+  }
   
-//   receive(msg: Refund) {
-//     require(sender()==self.admin,"");
-//     send(SendParameters{
-//       to: msg.sender,
-//       value: 0,
-//       mode: 66
-//     });
-//   }
+  receive(msg: Refund) {
+    require(sender()==self.admin,"");
+    send(SendParameters{
+      to: msg.sender,
+      value: 0,
+      mode: 66
+    });
+  }
 
-//   receive(msg: Slice) {
-//     send(SendParameters{
-//       to: self.admin,
-//       value: 0,
-//       mode: 66,
-//       body: beginCell()
-//               .storeAddress(sender())
-//               .storeRef(
-//                 beginCell().storeSlice(msg).endCell()
-//               )
-//             .endCell()
-//     });
-//   }
-// }
+  receive(msg: Slice) {
+    send(SendParameters{
+      to: self.admin,
+      value: 0,
+      mode: 66,
+      body: beginCell()
+               .storeAddress(sender())
+              .storeRef(
+                beginCell().storeSlice(msg).endCell()
+              )
+            .endCell()
+    });
+   }
+ }
