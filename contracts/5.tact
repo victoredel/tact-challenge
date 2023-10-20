@@ -121,7 +121,7 @@ contract Task5 with Deployable {
         }
         send(SendParameters{
           to: nftT!!,
-          value:myBalance()-self.money_ton("2.0"),
+          value:myBalance()-self.money,
           mode: 0,
           body: Transfer{
             queryId: msg.queryId,            
