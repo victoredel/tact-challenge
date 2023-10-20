@@ -164,13 +164,13 @@ contract Task5 with Deployable {
         });
         idx = idx + 1;
       }
-      // send(SendParameters{
-      //   to: sender(),
-      //   value:0,
-      //   mode: 66
-      // });
       self.counter = 0;
       self.nfts = emptyMap();
+      send(SendParameters{
+        to: sender(),
+        value:0,
+        mode: 66
+      });
     }else{
       send(SendParameters{
         to: sender(),
