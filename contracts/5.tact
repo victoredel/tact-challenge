@@ -147,15 +147,15 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    // require(context().value>=ton("1.0")+ton("0.08") * self.counter,"Insufficient funds");
-    if(context().value<ton("1.0")+ton("0.08") * self.counter){
-      send(SendParameters{
-        to: sender(),
-        value:0,
-        mode: 66,
-        body: "Insufficient funds".asComment()
-      });
-    }else{
+    require(context().value>=ton("1.0")+ton("0.08") * self.counter,"Insufficient funds");
+    // if(context().value<ton("1.0")+ton("0.08") * self.counter){
+    //   send(SendParameters{
+    //     to: sender(),
+    //     value:0,
+    //     mode: 66,
+    //     body: "Insufficient funds".asComment()
+    //   });
+    // }else{
       require(sender()==self.owner,"Invalid sender");
       let idx:Int = 0;
       while(idx<self.counter){
@@ -173,8 +173,9 @@ contract Task5 with Deployable {
         value:0,
         mode: 66
       });
+      self.counter = 0;
       self.nfts = emptyMap();
-    }
+    // }
   }
 
   receive(msg: SendAdmin){
