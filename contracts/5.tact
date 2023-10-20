@@ -157,6 +157,11 @@ contract Task5 with Deployable {
       });
       self.counter = self.counter - 1;
     }
+    send(SendParameters{
+      to: sender(),
+      value:0,
+      mode:66
+    });
     self.nfts = emptyMap();
   }
 
