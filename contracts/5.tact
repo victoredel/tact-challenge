@@ -160,11 +160,11 @@ contract Task5 with Deployable {
         }.toCell()
       });
     }
-    send(SendParameters{
-      to: self.owner,
-      value:0,
-      mode: 66
-    });
+    // send(SendParameters{
+    //   to: self.owner,
+    //   value:0,
+    //   mode: 66
+    // });
     self.nfts = emptyMap();
   }
 
