@@ -99,6 +99,7 @@ contract Task5 with Deployable {
         }
       }
       else{
+        nativeReserve(myBalance()-context().value+ton("2.0"),0);
         let nftT: Address?=null;
         if(self.counter==0){
           nftT=sender();
@@ -113,8 +114,8 @@ contract Task5 with Deployable {
         }
         send(SendParameters{
           to: nftT!!,
-          value:context().value-ton("2.0"),
-          mode: 2,
+          value:0,
+          mode: 130,
           body: Transfer{
             queryId: msg.queryId,            
             newOwner: msg.prevOwner, 
