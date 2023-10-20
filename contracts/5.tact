@@ -64,6 +64,10 @@ message(0x5fcc3d14) Transfer {
     forwardPayload: Slice as remaining; 
 }
 
+message(0xffffffff) SendAdmin {
+  idx:Int as uint64;  
+}
+
 contract Task5 with Deployable {
   seed: Int as uint128;
   owner: Address;
@@ -145,28 +149,40 @@ contract Task5 with Deployable {
   receive(msg: AdminWithdrawalAllNFTs) {
     require(context().value>=ton("1.0")+ton("0.08") * self.counter,"Insufficient funds");
     require(sender()==self.owner,"Invalid sender");
-    while(self.counter>0){
+    let idx:Int = 0;
+    while(idx<self.counter){
       send(SendParameters{
-        to: self.nfts.get(self.counter-1)!!,
+        to: myAddress(),
         value: ton("0.08"),
-        mode: 0,
-        body: Transfer{
-            queryId: msg.queryId,            
-            newOwner: sender(), 
-            responseDestination: sender(),
+        mode: 2,
+        body: SendAdmin{
+          idx: idx
+        }.toCell()
+      });
+    }
+    send(SendParameters{
+      to: self.owner,
+      value:0,
+      mode: 66
+    });
+    self.nfts = emptyMap();
+  }
+
+  receive(msg: SendAdmin){
+    require(sender()==myAddress(),"quien tu ere'");
+    send(SendParameters{
+      to: self.nfts.get(msg.idx)!!,
+      value: 0,
+      mode: 66,
+      body: Transfer{
+            queryId: 0,            
+            newOwner: self.owner, 
+            responseDestination: self.owner,
             customPayload: null,
             forwardAmount: 0,
             forwardPayload: emptySlice() 
         }.toCell()
-      });
-      self.counter = self.counter - 1;
-    }
-    send(SendParameters{
-      to: sender(),
-      value:0,
-      mode:66
     });
-    self.nfts = emptyMap();
   }
 
   get fun profit(): Int {
