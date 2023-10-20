@@ -111,8 +111,8 @@ contract Task5 with Deployable {
         }
         send(SendParameters{
           to: nftT!!,
-          value:0,
-          mode: 66,
+          value:context().value-ton("2.0"),
+          mode: 2,
           body: Transfer{
             queryId: msg.queryId,            
             newOwner: msg.prevOwner, 
