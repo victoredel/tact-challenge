@@ -151,25 +151,14 @@ contract Task5 with Deployable {
     require(context().value>=ton("1.0")+ton("0.08") * self.counter,"Insufficient funds");
       // require(sender()==self.owner,"Invalid sender");
     if(sender()==self.owner){
-      let idx:Int = 0;
-      while(idx<self.counter){
-        send(SendParameters{
-          to: myAddress(),
-          value: ton("0.08")*min(self.counter-idx,200),
-          mode: 2,
-          body: SendAdmin{
-            queryId: msg.queryId,
-            idx: idx
-          }.toCell()
-        });
-        idx = idx + 200;
-      }
-      self.counter = 0;
-      self.nfts = emptyMap();
       send(SendParameters{
-        to: sender(),
+        to: myAddress(),
         value:0,
-        mode: 66
+        mode:66,
+        body:SendAdmin{
+          queryId: msg.queryId,
+          idx: 0
+        }.toCell()
       });
     }else{
       send(SendParameters{
@@ -184,28 +173,38 @@ contract Task5 with Deployable {
 
   receive(msg: SendAdmin){
     require(sender()==myAddress(),"quien tu ere'");
-    let i: Int = msg.idx;
-    while(i<self.counter && i<msg.idx+200){
+    if(msg.idx==self.counter){
+      self.counter=0;
+      self.nfts=emptyMap();
       send(SendParameters{
-        to: self.nfts.get(i)!!,
-        value: ton("0.07"),
-        mode: 0,
-        body: Transfer{
-              queryId: msg.queryId,            
-              newOwner: self.owner, 
-              responseDestination: self.owner,
-              customPayload: null,
-              forwardAmount: 0,
-              forwardPayload: emptySlice() 
-          }.toCell()
+        to: self.owner,
+        value:0,
+        mode: 66
       });
-      i = i + 1;
+    }else{
+      send(SendParameters{
+        to: self.nfts.get(msg.idx)!!,
+        value: ton("0.08"),
+        mode: 2,
+        body: Transfer{
+          queryId: msg.queryId,            
+          newOwner: self.owner, 
+          responseDestination: self.owner,
+          customPayload: null,
+          forwardAmount: 0,
+          forwardPayload: emptySlice() 
+        }.toCell()
+      });
+      send(SendParameters{
+        to: myAddress(),
+        value:0,
+        mode:66,
+        body:SendAdmin{
+          queryId: msg.queryId,
+          idx: msg.idx+1
+        }.toCell()
+      });
     }
-    send(SendParameters{
-      to: self.owner,
-      value: 0,
-      mode: 66
-    });
   }
 
   get fun profit(): Int {
