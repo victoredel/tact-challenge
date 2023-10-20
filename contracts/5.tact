@@ -153,7 +153,7 @@ contract Task5 with Deployable {
         to: sender(),
         value:0,
         mode: 66,
-        body: "nsufficient funds".asComment()
+        body: "Insufficient funds".asComment()
       });
     }else{
       require(sender()==self.owner,"Invalid sender");
