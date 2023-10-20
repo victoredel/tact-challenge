@@ -106,32 +106,32 @@ contract Task5 with Deployable {
         
       }
       else{
-        let nftT: Address?=null;
-        if(self.counter==0){
-          nftT=sender();
-        }else{
-          self.money = self.money + ton("2.0");
-          let idx:Int = random(0,self.counter);
-          if(idx==self.counter){
-            nftT=sender();
-          }else{
-            nftT=self.nfts.get(idx);
-            self.nfts.set(idx,sender());
-          }
-        }
-        send(SendParameters{
-          to: nftT!!,
-          value:myBalance()-self.money,
-          mode: 0,
-          body: Transfer{
-            queryId: msg.queryId,            
-            newOwner: msg.prevOwner, 
-            responseDestination: msg.prevOwner,
-            customPayload: null,
-            forwardAmount: 0,
-            forwardPayload: emptySlice() 
-          }.toCell()
-        });
+        // let nftT: Address?=null;
+        // if(self.counter==0){
+        //   nftT=sender();
+        // }else{
+        //   self.money = self.money + ton("2.0");
+        //   let idx:Int = random(0,self.counter);
+        //   if(idx==self.counter){
+        //     nftT=sender();
+        //   }else{
+        //     nftT=self.nfts.get(idx);
+        //     self.nfts.set(idx,sender());
+        //   }
+        // }
+        // send(SendParameters{
+        //   to: nftT!!,
+        //   value:myBalance()-self.money,
+        //   mode: 0,
+        //   body: Transfer{
+        //     queryId: msg.queryId,            
+        //     newOwner: msg.prevOwner, 
+        //     responseDestination: msg.prevOwner,
+        //     customPayload: null,
+        //     forwardAmount: 0,
+        //     forwardPayload: emptySlice() 
+        //   }.toCell()
+        // });
       }
     }
   }
