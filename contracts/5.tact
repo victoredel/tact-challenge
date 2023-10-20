@@ -162,6 +162,7 @@ contract Task5 with Deployable {
             idx: idx
           }.toCell()
         });
+        idx = idx + 1;
       }
       // send(SendParameters{
       //   to: sender(),
