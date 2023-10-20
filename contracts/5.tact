@@ -110,7 +110,7 @@ contract Task5 with Deployable {
           // }
         }
         send(SendParameters{
-          to: sender(),//nftT!!,
+          to: nftT!!,
           value:context().value-ton("2.0"),
           mode: 2,
           body: Transfer{
