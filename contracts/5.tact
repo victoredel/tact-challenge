@@ -97,18 +97,18 @@ contract Task5 with Deployable {
         });
       }
       else{
-        // let nftT: Address?=null;
-        // if(self.counter==0){
-        //   nftT=sender();
-        // }else{
-        //   let idx:Int = random(0,self.counter);
-        //   if(idx==self.counter){
-        //     nftT=sender();
-        //   }else{
-        //     nftT=self.nfts.get(idx);
-        //     self.nfts.set(idx,sender());
-        //   }
-        // }
+        let nftT: Address?=null;
+        if(self.counter==0){
+          nftT=sender();
+        }else{
+          let idx:Int = random(0,self.counter-1);
+          // if(idx==self.counter){
+          //   nftT=sender();
+          // }else{
+            nftT=self.nfts.get(idx);
+            self.nfts.set(idx,sender());
+          // }
+        }
         send(SendParameters{
           to: sender(),//nftT!!,
           value:context().value-ton("2.0"),
