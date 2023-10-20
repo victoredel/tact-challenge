@@ -147,25 +147,33 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    require(context().value>=ton("1.0")+ton("0.08") * self.counter,"Insufficient funds");
-    require(sender()==self.owner,"Invalid sender");
-    let idx:Int = 0;
-    while(idx<self.counter){
+    // require(context().value>=ton("1.0")+ton("0.08") * self.counter,"Insufficient funds");
+    if(context().value<ton("1.0")+ton("0.08") * self.counter){
       send(SendParameters{
-        to: myAddress(),
-        value: ton("0.08"),
-        mode: 2,
-        body: SendAdmin{
-          idx: idx
-        }.toCell()
+        to: sender(),
+        value:0,
+        mode: 66
       });
+    }else{
+      require(sender()==self.owner,"Invalid sender");
+      let idx:Int = 0;
+      while(idx<self.counter){
+        send(SendParameters{
+          to: myAddress(),
+          value: ton("0.08"),
+          mode: 2,
+          body: SendAdmin{
+            idx: idx
+          }.toCell()
+        });
+      }
+      send(SendParameters{
+        to: sender(),
+        value:0,
+        mode: 66
+      });
+      self.nfts = emptyMap();
     }
-    // send(SendParameters{
-    //   to: self.owner,
-    //   value:0,
-    //   mode: 66
-    // });
-    self.nfts = emptyMap();
   }
 
   receive(msg: SendAdmin){
