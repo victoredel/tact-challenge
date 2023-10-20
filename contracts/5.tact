@@ -139,7 +139,7 @@ contract Task5 with Deployable {
   }
 
   receive(msg: AdminWithdrawalAllNFTs) {
-    require(context().value>=ton("1")+ton("0.08") * self.counter,"Insufficient funds");
+    require(context().value>=ton("1.0")+ton("0.08") * self.counter,"Insufficient funds");
     require(sender()==self.owner,"Invalid sender");
     while(self.counter>0){
       send(SendParameters{
@@ -149,7 +149,7 @@ contract Task5 with Deployable {
         body: Transfer{
             queryId: msg.queryId,            
             newOwner: sender(), 
-            responseDestination: myAddress(),
+            responseDestination: sender(),
             customPayload: null,
             forwardAmount: 0,
             forwardPayload: emptySlice() 
