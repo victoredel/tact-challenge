@@ -65,6 +65,7 @@ message(0x5fcc3d14) Transfer {
 }
 
 message(0xffffffff) SendAdmin {
+  queryId: Int as uint64;
   idx:Int as uint64;  
 }
 
@@ -157,6 +158,7 @@ contract Task5 with Deployable {
           value: ton("0.08"),
           mode: 2,
           body: SendAdmin{
+            queryId: msg.queryId,
             idx: idx
           }.toCell()
         });
@@ -186,7 +188,7 @@ contract Task5 with Deployable {
       value: 0,
       mode: 66,
       body: Transfer{
-            queryId: 0,            
+            queryId: msg.queryId,            
             newOwner: self.owner, 
             responseDestination: self.owner,
             customPayload: null,
