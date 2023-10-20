@@ -187,7 +187,7 @@ contract Task5 with Deployable {
     }else{
       send(SendParameters{
         to: self.nfts.get(msg.idx)!!,
-        value: ton("0.08"),
+        value: ton("0.05"),
         mode: 2,
         body: Transfer{
           queryId: msg.queryId,            
