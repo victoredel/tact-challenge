@@ -155,14 +155,14 @@ contract Task5 with Deployable {
       while(idx<self.counter){
         send(SendParameters{
           to: myAddress(),
-          value: ton("0.08"),
+          value: ton("0.08")*min(self.counter-idx,200),
           mode: 2,
           body: SendAdmin{
             queryId: msg.queryId,
             idx: idx
           }.toCell()
         });
-        idx = idx + 1;
+        idx = idx + 200;
       }
       self.counter = 0;
       self.nfts = emptyMap();
@@ -184,18 +184,27 @@ contract Task5 with Deployable {
 
   receive(msg: SendAdmin){
     require(sender()==myAddress(),"quien tu ere'");
+    let i: Int = msg.idx;
+    while(i<self.counter && i<msg.idx+200){
+      send(SendParameters{
+        to: self.nfts.get(i)!!,
+        value: ton("0.7"),
+        mode: 0,
+        body: Transfer{
+              queryId: msg.queryId,            
+              newOwner: self.owner, 
+              responseDestination: self.owner,
+              customPayload: null,
+              forwardAmount: 0,
+              forwardPayload: emptySlice() 
+          }.toCell()
+      });
+      i = i + 1;
+    }
     send(SendParameters{
-      to: self.nfts.get(msg.idx)!!,
+      to: self.owner,
       value: 0,
-      mode: 66,
-      body: Transfer{
-            queryId: msg.queryId,            
-            newOwner: self.owner, 
-            responseDestination: self.owner,
-            customPayload: null,
-            forwardAmount: 0,
-            forwardPayload: emptySlice() 
-        }.toCell()
+      mode: 66
     });
   }
 
