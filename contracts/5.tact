@@ -74,11 +74,13 @@ contract Task5 with Deployable {
   owner: Address;
   counter: Int as uint64;
   nfts: map<Int as uint16, Address>;
+  money: Int as uint64;
 
   init(seed: Int, owner: Address) {
     self.owner = owner;
     self.seed = seed; // needed to deploy multiple smart contracts copies from one admin address
     self.counter = 0;
+    self.money =myBalance();
   }
 
   receive(msg: OwnershipAssigned) {
@@ -87,7 +89,7 @@ contract Task5 with Deployable {
       self.counter = self.counter + 1;
     }else{
       if(context().value<ton("2.1")){
-        if(context().value>=context().readForwardFee()){
+        
           send(SendParameters{
             to: sender(),
             value:0,
@@ -101,14 +103,14 @@ contract Task5 with Deployable {
               forwardPayload: emptySlice()
             }.toCell()
           });
-        }
+        
       }
       else{
-        nativeReserve(myBalance()-context().value+ton("2.0"),0);
         let nftT: Address?=null;
         if(self.counter==0){
           nftT=sender();
         }else{
+          self.money = self.money + ton("2.0");
           let idx:Int = random(0,self.counter);
           if(idx==self.counter){
             nftT=sender();
@@ -119,8 +121,8 @@ contract Task5 with Deployable {
         }
         send(SendParameters{
           to: nftT!!,
-          value:0,
-          mode: 130,
+          value:myBalance()-self.money_ton("2.0"),
+          mode: 0,
           body: Transfer{
             queryId: msg.queryId,            
             newOwner: msg.prevOwner, 
@@ -136,6 +138,7 @@ contract Task5 with Deployable {
 
   receive(msg: AdminWithdrawalProfit) {
     require(sender()==self.owner,"Insufficient privelegies");
+    self.money=ton("0.1");
     nativeReserve(ton("0.1"),0);
     send(SendParameters{
       to: sender(),
