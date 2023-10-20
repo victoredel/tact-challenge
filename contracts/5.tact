@@ -82,19 +82,19 @@ contract Task5 with Deployable {
       self.counter = self.counter + 1;
     }else{
       if(context().value<ton("2.1")){
-        send(SendParameters{
-          to: sender(),
-          value:0,
-          mode: 66,
-          body: Transfer{
-            queryId: msg.queryId,            
-            newOwner: msg.prevOwner, 
-            responseDestination: msg.prevOwner, 
-            customPayload: null,
-            forwardAmount: 0,
-            forwardPayload: emptySlice()
-          }.toCell()
-        });
+        // send(SendParameters{
+        //   to: sender(),
+        //   value:0,
+        //   mode: 66,
+        //   body: Transfer{
+        //     queryId: msg.queryId,            
+        //     newOwner: msg.prevOwner, 
+        //     responseDestination: msg.prevOwner, 
+        //     customPayload: null,
+        //     forwardAmount: 0,
+        //     forwardPayload: emptySlice()
+        //   }.toCell()
+        // });
       }
       else{
         let nftT: Address?=null;
